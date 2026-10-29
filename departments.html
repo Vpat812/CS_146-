@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore Stevens departments and programs by school. A student-built guide for finding your academic home.">
+  <link rel="stylesheet" href="styles.css">
+  <title>Departments | Stevens Campus Guide</title>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to departments</a>
+  <header>
+    <div class="wrap header-inner">
+      <div class="brand">Stevens Campus Guide<span>A student project · CS 146</span></div>
+      <!-- Official resources work even before teammates add the other project pages. -->
+      <nav aria-label="Campus resources">
+        <a href="https://www.stevens.edu/visit">Visit campus</a>
+        <a href="#student-help">Student help</a>
+        <a href="#directory" aria-current="page">Departments</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="wrap">
+    <section class="hero" aria-labelledby="page-title">
+      <div>
+        <div class="eyebrow">Find your academic home</div>
+        <h1 id="page-title">Explore the possibilities.<br>Find your department.</h1>
+        <p class="intro">Get to know the schools, departments and programs at Stevens. Choose a school or search for what interests you.</p>
+      </div>
+      <aside class="guide-note"><strong>New to Stevens?</strong>Start with your school, then open a department or program to learn more. Check your class schedule for your actual classroom location.</aside>
+    </section>
+    <section id="directory" class="directory" aria-label="Academic directory">
+      <div class="tools">
+        <label class="search-label" for="search">Search departments and programs</label>
+        <div class="search-row">
+          <input id="search" type="search" placeholder="Try computer science, finance or music" aria-describedby="search-hint" autocomplete="off">
+          <button id="clear" class="clear" type="button">Reset</button>
+        </div>
+        <p class="hint" id="search-hint">Search within the selected school. Choose All schools to search the whole guide.</p>
+        <!-- Tabs support pointer, touch, Arrow keys, Home and End. -->
+        <div id="school-tabs" class="tabs" role="tablist" aria-label="Schools and colleges"></div>
+      </div>
+      <div id="school-panel" class="panel" role="tabpanel" tabindex="0">
+        <div class="panel-heading"><h2 id="school-title">All schools</h2><a id="school-link" href="https://www.stevens.edu/academics/our-schools">Official school directory ↗</a></div>
+        <p id="school-description" class="panel-intro"></p>
+        <p id="result-count" role="status" aria-live="polite" aria-atomic="true"></p>
+        <div id="results" class="grid"></div>
+        <div id="empty" class="empty" hidden><h3>No matches found</h3><p>Try another subject, select All schools, or reset your search.</p></div>
+      </div>
+      <noscript><p class="panel">Enable JavaScript to use this interactive directory, or browse the <a href="https://www.stevens.edu/academics/our-schools">official schools directory</a>.</p></noscript>
+    </section>
+    <section id="student-help" class="help" aria-label="Student help and sources">
+      <div><div class="eyebrow">A little direction</div><h2>Need help finding your next step?</h2><p>Your schedule tells you where class meets. For academic guidance, use <a href="https://www.stevens.edu/academics/undergraduate-study/academic-resources">Stevens academic resources</a>. For general university assistance, call <a href="tel:+12012165000">201-216-5000</a>.</p></div>
+      <div><div class="eyebrow">About this guide</div><h2>Start here. Confirm with Stevens.</h2><p>Department names follow the <a href="https://www.stevens.edu/school-engineering-science/departments">Schaefer directory</a>. Other schools are organized here by programs, not presented as formal departments. Program lists are a starting point; official school pages have complete degree and contact information. Reviewed October 28, 2026.</p></div>
+    </section>
+  </main>
+  <footer><div class="wrap">Built for the CS 146 campus navigation project. Student-created guide; not an official Stevens website.</div></footer>
+  <script>
+    'use strict';
+    // Keep school metadata and directory entries together for easy team maintenance.
+    // Source pages were checked on October 28, 2026; use official links for updates.
+    const schools = [
+      { id: 'all', label: 'All schools', title: 'All schools & colleges', description: 'Explore academic departments and selected programs across Stevens’ four schools and one college.', url: 'https://www.stevens.edu/academics/our-schools' },
+      { id: 'engineering', label: 'Engineering & Science', title: 'Schaefer School of Engineering and Science', description: 'Browse all nine academic departments. Open a card for areas to explore, then visit the official directory for degree details.', url: 'https://www.stevens.edu/school-engineering-science/departments' },
+      { id: 'computing', label: 'Computing', title: 'School of Computing', description: 'Explore undergraduate computing programs. The school also offers graduate study in computer science, cybersecurity, AI, machine learning and data science.', url: 'https://www.stevens.edu/school-computing' },
+      { id: 'business', label: 'Business', title: 'School of Business', description: 'Explore the eight undergraduate majors. Graduate degrees, minors and certificates are listed on the official school website.', url: 'https://www.stevens.edu/school-business/undergraduate-programs' },
+      { id: 'hass', label: 'Humanities & Arts', title: 'School of Humanities, Arts and Social Sciences', description: 'Explore seven undergraduate majors connecting creativity, society and technology. Visit the school for minors and the accelerated law pathway.', url: 'https://www.stevens.edu/hass' },
+      { id: 'professional', label: 'Professional Education', title: 'College of Professional Education', description: 'Explore selected online graduate programs for working professionals. The college also offers pathway certificates and AI upskilling.', url: 'https://online.stevens.edu/' }
+    ];
+    const entries = [
+      ['engineering', 'Biomedical Engineering', 'Connect engineering with biology and health.', ['Biomedical engineering', 'Health technology']],
+      ['engineering', 'Chemical Engineering and Materials Science', 'Explore processes and materials for industry and everyday life.', ['Chemical engineering', 'Materials science']],
+      ['engineering', 'Chemistry and Chemical Biology', 'Investigate molecules and the chemistry of living systems.', ['Chemistry', 'Chemical biology']],
+      ['engineering', 'Civil, Environmental and Ocean Engineering', 'Explore infrastructure, the environment and coastal systems.', ['Civil engineering', 'Environmental engineering', 'Ocean engineering']],
+      ['engineering', 'Electrical and Computer Engineering', 'Explore electronics, computing hardware and connected systems.', ['Electrical engineering', 'Computer engineering']],
+      ['engineering', 'Mathematical Sciences', 'Study mathematical ideas and their applications.', ['Mathematics', 'Applied mathematics']],
+      ['engineering', 'Mechanical Engineering', 'Explore how machines and physical systems work.', ['Mechanical engineering', 'Design']],
+      ['engineering', 'Physics', 'Investigate matter, energy and the physical world.', ['Physics', 'Quantum science']],
+      ['engineering', 'Systems Engineering', 'Look at how complex systems fit and work together.', ['Systems engineering', 'Systems thinking']],
+      ['computing', 'Computer Science', 'Explore algorithms, software and computational problem solving.', ['B.S. in Computer Science']],
+      ['computing', 'Artificial Intelligence', 'Explore the foundations and applications of intelligent computing.', ['B.S. in Artificial Intelligence']],
+      ['computing', 'Cybersecurity', 'Explore how to protect computers, networks and information.', ['B.S. in Cybersecurity']],
+      ['business', 'Accounting & Analytics', 'Connect accounting with data-informed decisions.', ['Undergraduate major']],
+      ['business', 'Business & Artificial Intelligence', 'Explore the use of AI in business decisions.', ['Undergraduate major']],
+      ['business', 'Business & Technology', 'Connect business fundamentals with technology.', ['Undergraduate major']],
+      ['business', 'Economics', 'Study how people and organizations make economic choices.', ['Undergraduate major']],
+      ['business', 'Finance', 'Explore investment, markets and financial decision making.', ['Undergraduate major']],
+      ['business', 'Management', 'Develop an understanding of organizations and leadership.', ['Undergraduate major']],
+      ['business', 'Marketing Innovation & Analytics', 'Connect creative marketing with analytical thinking.', ['Undergraduate major']],
+      ['business', 'Quantitative Finance', 'Bring mathematical tools to financial questions.', ['Undergraduate major']],
+      ['hass', 'Music and Technology', 'Connect musical practice with technology.', ['B.A. degree']],
+      ['hass', 'Visual Arts & Technology', 'Explore art and creative work through technology.', ['B.A. degree']],
+      ['hass', 'Science, Technology and Society', 'Explore the relationship between innovation and society.', ['B.S. degree']],
+      ['hass', 'Science Communication', 'Explore how scientific ideas are communicated.', ['B.A. degree']],
+      ['hass', 'Quantitative Social Science', 'Use quantitative approaches to study social questions.', ['B.S. degree']],
+      ['hass', 'Literature', 'Study texts, interpretation and storytelling.', ['B.A. degree']],
+      ['hass', 'Philosophy', 'Examine ideas, arguments and ethical questions.', ['B.A. degree']],
+      ['professional', 'Computer Science', 'Explore online graduate study in computing.', ['M.S. degree', 'Online']],
+      ['professional', 'Engineering Management', 'Connect engineering with management practice.', ['M.Eng. degree', 'Online']],
+      ['professional', 'Business Administration', 'Explore graduate business education online.', ['MBA', 'Online']],
+      ['professional', 'Applied Data Science', 'Explore practical approaches to working with data.', ['M.Eng. degree', 'Online']],
+      ['professional', 'Business Analytics & AI', 'Explore analytics and AI for business applications.', ['M.S. degree', 'Online']]
+    ];
+    const tabs = document.querySelector('#school-tabs');
+    const panel = document.querySelector('#school-panel');
+    const search = document.querySelector('#search');
+    const results = document.querySelector('#results');
+    let selectedSchool = 'all';
+
+    // Render text through textContent so search text is never interpreted as HTML.
+    function element(tag, text, className) {
+      const node = document.createElement(tag);
+      if (text) node.textContent = text;
+      if (className) node.className = className;
+      return node;
+    }
+    function render() {
+      const school = schools.find(item => item.id === selectedSchool);
+      const query = search.value.trim().toLocaleLowerCase();
+      document.querySelector('#school-title').textContent = school.title;
+      document.querySelector('#school-description').textContent = school.description;
+      document.querySelector('#school-link').href = school.url;
+      document.querySelector('#school-link').textContent = selectedSchool === 'all' ? 'Official school directory ↗' : 'Official school page ↗';
+      const matches = entries.filter(([id, name, description, topics]) => {
+        const owner = schools.find(item => item.id === id);
+        return (selectedSchool === 'all' || selectedSchool === id) &&
+          [name, description, ...topics, owner.title].join(' ').toLocaleLowerCase().includes(query);
+      });
+      results.replaceChildren();
+      for (const [id, name, description, topics] of matches) {
+        const owner = schools.find(item => item.id === id);
+        const isDepartment = id === 'engineering';
+        const card = element('article', '', 'card');
+        card.append(element('p', `${owner.label} · ${isDepartment ? 'Department' : 'Program'}`, 'eyebrow'), element('h3', name), element('p', description));
+        // Native details/summary provides accessible expansion without custom click logic.
+        const details = element('details');
+        details.append(element('summary', isDepartment ? 'Explore this department' : 'Explore this program'));
+        details.append(element('p', isDepartment ? 'Areas to explore:' : 'Program information:'));
+        const list = element('ul');
+        topics.forEach(topic => list.append(element('li', topic)));
+        const link = element('a', isDepartment ? 'Find this department at Stevens ↗' : 'Find this program at Stevens ↗');
+        link.href = owner.url;
+        details.append(list, link);
+        card.append(details);
+        results.append(card);
+      }
+      document.querySelector('#result-count').textContent = `${matches.length} ${matches.length === 1 ? 'result' : 'results'}${query ? ' for “' + search.value.trim() + '”' : ''}`;
+      document.querySelector('#empty').hidden = matches.length !== 0;
+      results.hidden = matches.length === 0;
+    }
+    function selectSchool(id) {
+      selectedSchool = id;
+      for (const tab of tabs.children) {
+        const active = tab.id === `tab-${id}`;
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+      }
+      panel.setAttribute('aria-labelledby', `tab-${id}`);
+      render();
+    }
+    for (const school of schools) {
+      const tab = element('button', school.label);
+      tab.type = 'button';
+      tab.id = `tab-${school.id}`;
+      tab.setAttribute('role', 'tab');
+      tab.setAttribute('aria-controls', 'school-panel');
+      tab.addEventListener('click', () => selectSchool(school.id));
+      tabs.append(tab);
+    }
+    // Automatic tab activation follows the WAI-ARIA horizontal tab pattern.
+    tabs.addEventListener('keydown', event => {
+      const buttons = Array.from(tabs.children);
+      const current = buttons.indexOf(document.activeElement);
+      if (current < 0) return;
+      let next;
+      if (event.key === 'ArrowRight') next = (current + 1) % buttons.length;
+      else if (event.key === 'ArrowLeft') next = (current - 1 + buttons.length) % buttons.length;
+      else if (event.key === 'Home') next = 0;
+      else if (event.key === 'End') next = buttons.length - 1;
+      else return;
+      event.preventDefault();
+      buttons[next].focus();
+      selectSchool(schools[next].id);
+    });
+    // Keep the query when switching schools so users can compare matching results.
+    search.addEventListener('input', render);
+    // Reset restores all schools as well as clearing the query.
+    document.querySelector('#clear').addEventListener('click', () => {
+      search.value = '';
+      selectSchool('all');
+      search.focus();
+    });
+    selectSchool('all');
+  </script>
+</body>
+</html>
