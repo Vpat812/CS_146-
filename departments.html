@@ -4,76 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Explore Stevens departments and programs by school. A student-built guide for finding your academic home.">
+  <link rel="stylesheet" href="styles.css">
   <title>Departments | Stevens Campus Guide</title>
-  <style>
-    :root { color-scheme: light; --red: #9d1735; --ink: #202b34; --muted: #53616a; --line: #d9dedf; --paper: #f6f5f1; }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.6 system-ui, sans-serif; }
-    a { color: var(--red); text-underline-offset: 4px; }
-    a:hover { text-decoration-thickness: 2px; }
-    button, input { font: inherit; }
-    button, summary, a { -webkit-tap-highlight-color: transparent; }
-    :focus-visible { outline: 3px solid #136f97; outline-offset: 4px; }
-    .skip { position: absolute; left: 16px; top: -100px; background: white; padding: 12px; z-index: 2; }
-    .skip:focus { top: 10px; }
-    .wrap { max-width: 1160px; margin: auto; padding-inline: 28px; }
-    header { background: white; border-top: 6px solid var(--red); border-bottom: 1px solid var(--line); }
-    .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 88px; }
-    .brand { font-weight: 750; font-size: 19px; line-height: 1.3; }
-    .brand span { display: block; font-size: 12px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: 5px; }
-    nav { display: flex; gap: 24px; font-size: 14px; }
-    nav a { color: var(--ink); }
-    .hero { padding-block: 60px 40px; display: grid; grid-template-columns: 1fr 270px; gap: 48px; align-items: end; }
-    .eyebrow { color: var(--red); text-transform: uppercase; letter-spacing: .14em; font-size: 12px; font-weight: 750; }
-    h1 { font: 500 clamp(38px, 5vw, 64px)/1.08 Georgia, serif; letter-spacing: -.035em; margin: 16px 0 24px; }
-    .intro { max-width: 640px; font-size: 18px; color: var(--muted); margin-bottom: 0; }
-    .guide-note { border-left: 3px solid var(--red); padding-left: 20px; color: var(--muted); font-size: 14px; }
-    .guide-note strong { color: var(--ink); display: block; margin-bottom: 8px; }
-    .directory { background: white; border: 1px solid var(--line); border-radius: 10px; margin-bottom: 40px; overflow: hidden; }
-    .tools { padding: 28px; background: #fcfcfa; border-bottom: 1px solid var(--line); }
-    .search-label { display: block; font-weight: 650; margin-bottom: 8px; }
-    .search-row { display: flex; gap: 10px; }
-    input { width: 100%; border: 1px solid #88949b; border-radius: 5px; padding: 12px 16px; min-width: 0; background: white; color: var(--ink); }
-    .clear { border: 1px solid #88949b; border-radius: 5px; background: white; padding: 10px 18px; cursor: pointer; color: var(--ink); }
-    .clear:hover { background: #eee; }
-    .hint { color: var(--muted); font-size: 13px; margin: 8px 0 22px; }
-    .tabs { display: flex; flex-wrap: wrap; gap: 8px; }
-    [role="tab"] { border: 1px solid var(--line); border-radius: 5px; background: white; color: var(--ink); padding: 10px 16px; cursor: pointer; min-height: 44px; }
-    [role="tab"]:hover { border-color: var(--red); }
-    [role="tab"][aria-selected="true"] { background: var(--red); border-color: var(--red); color: white; }
-    .panel { padding: 28px; }
-    .panel-heading { display: flex; justify-content: space-between; gap: 20px; align-items: baseline; }
-    h2 { font: 500 30px/1.2 Georgia, serif; margin: 0 0 12px; }
-    .panel-intro { color: var(--muted); margin: 0 0 24px; max-width: 750px; }
-    #result-count { color: var(--muted); font-size: 14px; margin: 0 0 20px; }
-    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-    .card { border: 1px solid var(--line); border-radius: 6px; padding: 24px; }
-    .card .eyebrow { letter-spacing: .06em; font-size: 11px; margin: 0 0 10px; }
-    h3 { font-size: 19px; line-height: 1.35; margin: 0 0 12px; }
-    .card p { color: var(--muted); margin: 0 0 14px; }
-    summary { color: var(--red); cursor: pointer; font-weight: 650; padding: 5px 0; }
-    details[open] summary { margin-bottom: 12px; }
-    details ul { padding-left: 22px; margin: 0 0 18px; }
-    .empty { padding: 30px; border: 1px dashed #88949b; border-radius: 6px; text-align: center; }
-    .empty h3 { margin-bottom: 8px; }
-    .help { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; padding: 28px 0 40px; border-top: 1px solid var(--line); }
-    .help h2 { font-size: 25px; }
-    .help p, footer { color: var(--muted); font-size: 14px; }
-    footer { padding-block: 24px; border-top: 1px solid var(--line); }
-    [hidden] { display: none !important; }
-    @media (max-width: 700px) {
-      .wrap { padding-inline: 18px; }
-      .header-inner { align-items: flex-start; flex-direction: column; gap: 16px; padding-block: 20px; }
-      nav { gap: 20px; flex-wrap: wrap; }
-      .hero { grid-template-columns: 1fr; padding-block: 36px 28px; gap: 24px; }
-      .guide-note { max-width: 100%; }
-      .tools, .panel { padding: 20px; }
-      .grid, .help { grid-template-columns: 1fr; }
-      .panel-heading { flex-direction: column; gap: 0; }
-      [role="tab"] { flex-grow: 1; padding-inline: 10px; font-size: 14px; }
-      .card { padding: 20px; }
-    }
-  </style>
 </head>
 <body>
   <a class="skip" href="#main">Skip to departments</a>
